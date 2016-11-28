@@ -27,15 +27,7 @@ def plotNNFilter(units, filters):
              subplot_kw={'xticks': [], 'yticks': []})
 
   print filters
-#  for ax,i in zip(axes.flat, range(filters)):
-#    print i
-#    inch = i//16
-#    outch = i%16
-    #plt.subplot(7,6,i+1)
- #   plt.title('Filter ' + str(i))
- #   ax.imshow(units[0,:,:,i], interpolation="nearest", cmap=plt.cm.gray)
- #
-#  plt.show()
+
   for ax,i in zip(axes.flat, range(1*filters)):
     inch = i//filters
     outch = i%filters
@@ -72,25 +64,6 @@ def visualize(experiment_name,
                                 clip_norm = grad_norm_clip,
                                 device = device)
 
-  # for i in range(PARALLEL_SIZE):
-  #   training_thread = A3CTrainingThread(i, global_network, 1.0,
-  #                                       learning_rate_input,
-  #                                       grad_applier, MAX_TIME_STEP,
-  #                                       device = device)
-  #   training_threads.append(training_thread)
-
-
-
-
-
-  #x_t = np.zeros((80,80))
-  #x_s = random.randint(0,79)
-  #y_s = random.randint(0,79)
-  #x_g = random.randint(0,79)
-  #y_g = random.randint(0,79)
-
-  #x_t[x_s, y_s] = 0.5
-  #x_t[x_g, y_g] = 1.0
 
   game = GameState(rand_seed, action_size)
   game.reset()
@@ -162,11 +135,7 @@ def visualize(experiment_name,
   inp_2 = tf.nn.conv2d(h_conv1, W_conv2, strides = [1, 2, 2, 1], padding = "VALID")
   h_conv2 = tf.nn.relu(inp_2 + b_conv2)
 
-  #x_t = np.reshape(x_t, (80, 80,- 1))
   s_t = game.s_t
 
-  #h_conv1 = tf.nn.relu(sess.run(global_network._conv2d(s, W_conv1, 4)) + b_conv1)
-  #h_conv2 = tf.nn.relu(sess.run(global_network._conv2d(h_conv1, W_conv2, 2)) + b_conv2)
-  #print image_input.shape
   getActivations(sess, s, h_conv1, s_t, 16)
   getActivations(sess, s, h_conv2, s_t, 32)
