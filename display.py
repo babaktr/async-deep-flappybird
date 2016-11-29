@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 np.set_printoptions(threshold='nan')
 from game_state import GameState
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
-from a3c_training_thread import A3CTrainingThread
+from training_thread import A3CTrainingThread
 from rmsprop_applier import RMSPropApplier
 
 import random
@@ -81,6 +81,7 @@ def display(experiment_name,
     if display_log_level == 'FULL':
       print 'EPISODE {}'.format(episode)
 
+    full_frame = None
     while True:
       pi_values, value = global_network.run_policy_and_value(sess, game_state.s_t)
       action = choose_action(pi_values)
@@ -136,7 +137,7 @@ def display(experiment_name,
   print 'MAX'
   print 'REWARD: {}  /   STEPS: {}  /   PASSED OBST: {}'.format(np.max(episode_rewards), np.max(episode_steps), np.max(episode_passed_obsts))
 
-  if show_max:
+  if show_max and not full_frame == None:
     plt.imshow(full_frame, origin='lower')
     plt.show()
 

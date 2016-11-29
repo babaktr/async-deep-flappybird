@@ -7,7 +7,7 @@ import random
 
 from game_state import GameState
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
-from a3c_training_thread import A3CTrainingThread
+from training_thread import A3CTrainingThread
 from rmsprop_applier import RMSPropApplier
 
 

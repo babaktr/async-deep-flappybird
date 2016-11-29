@@ -10,12 +10,12 @@ import os
 import time
 
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
-from a3c_training_thread import A3CTrainingThread
+from training_thread import A3CTrainingThread
 from rmsprop_applier import RMSPropApplier
 from statistics import Statistics
 
-import a3c_display as DISPLAY
-import a3c_visualize as VISUALIZE
+import display as DISPLAY
+import visualize as VISUALIZE
 
 flags = tf.app.flags
 
