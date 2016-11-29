@@ -33,7 +33,7 @@ flags.DEFINE_integer('action_size', 2, 'Numbers of available actions')
 flags.DEFINE_string('agent_type', 'FF', 'What type of A3C to train the agent with [FF, LSTM] (default FF)')
 
 # TRAINING
-flags.DEFINE_integer('max_time_step', 400000000, 'Maximum training steps')
+flags.DEFINE_integer('max_time_step', 40000000, 'Maximum training steps')
 flags.DEFINE_float('initial_alpha_log_rate', 0.4226, ' log_uniform interpolate rate for learning rate (around 7 * 10^-4)')
 flags.DEFINE_float('initial_alpha_low', 0.0001, 'log_uniform low limit for learning rate')
 flags.DEFINE_float('initial_alpha_high', 0.01, 'log_uniform high limit for learning rate')
