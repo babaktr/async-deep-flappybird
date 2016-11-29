@@ -1,5 +1,5 @@
-# Asynchronous Deep ReinFlappybird
-This repo contains an Asynchronous Advantage Actor-Critic (A3C) Algorithm framework for training an agent to play Flappybird.
+# Asynchronous Deep ReinFlappyBird
+This repo contains an Asynchronous Advantage Actor-Critic (A3C) Algorithm framework for training an agent to play Flappy Bird.
 
 More info later!
 
@@ -17,7 +17,7 @@ Here are some of the available flags you can set when you train an agent. For th
 
 ### Training and Optimizer settings
 The current settings are based on or borrowed from the [implemenentation] (https://github.com/miyosuda/async_deep_reinforce) by [@miyosuda](https://github.com/miyosuda).
-They have not yet been optimized for Flappybird but rather used _as is_ for now.
+They have not yet been optimized for Flappy Bird but rather used _as is_ for now.
 
 * ```max_time_step - 40 000 000``` - Maximum training steps. 
 * ```initial_alpha_log_rate - 0.4226``` - log_uniform interpolate rate for learning rate (around 7*10^-4).
@@ -54,7 +54,7 @@ Enjoy!
 ## Credit
 **A3C** - A modified version [originally](https://github.com/miyosuda/async_deep_reinforce) by [@miyosuda](https://github.com/miyosuda).
 
-**Flappybird** - A slightly modified version [originally](https://github.com/yenchenlin/DeepLearningFlappyBird) by [@yenchenlin](https://github.com/yenchenlin).
+**Flappy Bird** - A slightly modified version [originally](https://github.com/yenchenlin/DeepLearningFlappyBird) by [@yenchenlin](https://github.com/yenchenlin).
 
 —
 
