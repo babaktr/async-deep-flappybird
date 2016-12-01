@@ -1,6 +1,10 @@
 # Asynchronous Deep ReinFlappyBird
 This repo contains an Asynchronous Advantage Actor-Critic (A3C) algorithm framework for training an agent to play Flappy Bird.
 
+<p align="center">
+  <img src="visuals/play.gif"/>
+</p>
+
 ## Performance
 Coming soon!
 
@@ -11,7 +15,7 @@ For my tests, these are the training speeds when using a **CPU** (Intel Core i7 
 |         | FF            |LSTM          |
 |---------|---------------|--------------|
 | **CPU** | TBA steps/s   |TBA steps/s   |
-| **GPU** | 400 steps/s		|TBA steps/s  |
+| **GPU** | 400 steps/s		|280 steps/s  |
 
 
 ## Settings
