@@ -1,23 +1,34 @@
 # Asynchronous Deep ReinFlappyBird
-This repo contains an Asynchronous Advantage Actor-Critic (A3C) Algorithm framework for training an agent to play Flappy Bird.
+This repo contains an Asynchronous Advantage Actor-Critic (A3C) algorithm framework for training an agent to play Flappy Bird.
 
-More info later!
+## Performance
+Coming soon!
 
-## Flags
-Here are some of the available flags you can set when you train an agent. For the full list, see [```a3c.py```](https://github.com/babaktr/async-deep-flappybird/blob/master/a3c.py).
+## Technical Details
 
-### Agent
-* ```mode``` - Which mode you want to activate when you start a session. ```[train, display, visualize] ```
-* ```use_gpu``` - If you have a/want to use GPU to speed up the training process. ```[True, False]```
+For my tests, these are the training speeds when using a **CPU** (Intel Core i7 6700K, 4.0 GHz) or **GPU** (NVIDIA GTX1070).
+
+|         | FF            |LSTM          |
+|---------|---------------|--------------|
+| **CPU** | TBA steps/s   |TBA steps/s   |
+| **GPU** | 400 steps/s		|TBA steps/s  |
+
+
+## Settings
+Here are some of the available flags you can set when you train an agent. For the full list, see [```a3c.py```](/a3c.py).
+
+### Agent settings
+* ```mode``` / ```[train, display, visualize] ``` - Which mode you want to activate when you start a session. 
+* ```use_gpu``` / ```[True, False]``` - If you have a/want to use GPU to speed up the training process. 
 * ```parallel_agent_size``` - Number of parallel agents to use during training. 
 * ```action_size``` - Numbers of available actions.
-* ```agent_type``` - What type of A3C to train the agent with. ```[FF, LSTM]```
+* ```agent_type``` / ```[FF, LSTM]``` - What type of A3C to train the agent with. 
 
 
 
 ### Training and Optimizer settings
 The current settings are based on or borrowed from the [implemenentation] (https://github.com/miyosuda/async_deep_reinforce) by [@miyosuda](https://github.com/miyosuda).
-They have not yet been optimized for Flappy Bird but rather used _as is_ for now.
+They have not yet been optimized for Flappy Bird but rather used _as is_ for now. Tell me settings that perform better than the current ones!
 
 * ```max_time_step - 40 000 000``` - Maximum training steps. 
 * ```initial_alpha_log_rate - 0.4226``` - log_uniform interpolate rate for learning rate (around 7*10^-4).
@@ -52,9 +63,9 @@ $ python a3c.py
 Enjoy!
 
 ## Credit
-**A3C** - A modified version [originally](https://github.com/miyosuda/async_deep_reinforce) by [@miyosuda](https://github.com/miyosuda).
+**A3C** - The A3C implementation used is a modified [version](https://github.com/miyosuda/async_deep_reinforce) by [@miyosuda](https://github.com/miyosuda).
 
-**Flappy Bird** - A slightly modified version [originally](https://github.com/yenchenlin/DeepLearningFlappyBird) by [@yenchenlin](https://github.com/yenchenlin).
+**Flappy Bird** - The Flappy Bird implementation is based on a [version](https://github.com/yenchenlin/DeepLearningFlappyBird) by [@yenchenlin](https://github.com/yenchenlin) with som minor adjustments.
 
 —
 
