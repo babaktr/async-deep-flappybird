@@ -28,7 +28,7 @@ flags.DEFINE_string('checkpoint_dir', 'checkpoints', 'Name of the directory for 
 flags.DEFINE_boolean('use_gpu', False, 'If GPU should be used to speed up the training process')
 
 # AGENT
-flags.DEFINE_integer('parallel_agent_size', 2, 'Number of parallel agents')
+flags.DEFINE_integer('parallel_agent_size', 16, 'Number of parallel agents')
 flags.DEFINE_integer('action_size', 2, 'Numbers of available actions')
 flags.DEFINE_string('agent_type', 'FF', 'What type of A3C to train the agent with [FF, LSTM] (default FF)')
 
