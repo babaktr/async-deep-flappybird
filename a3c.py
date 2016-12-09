@@ -65,6 +65,7 @@ LOG_FILE = 'summary/{}-{}'.format(settings.experiment_name, settings.agent_type)
 random.seed(settings.random_seed)
 
 def log_uniform(lo, hi, size):
+  # returns LogUniform(lo,hi) for the number of specified agents.
   return np.logspace(lo, hi, size)
 
 def train_function(parallel_index):
