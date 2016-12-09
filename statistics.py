@@ -16,7 +16,7 @@ class Statistics(object):
         # average
         'episode/avg_reward', 
         'episode/avg_reward_per_step', 
-        'episode/avg_max_q', 
+        'episode/avg_q_max', 
         'episode/avg_steps', 
         'episode/avg_passed_obstacles',
         # max
@@ -30,7 +30,9 @@ class Statistics(object):
         'min/min_steps',
         'min/min_passed_obstacles',
         # training
-        'training/learning_rate',
+        'training/avg_learning_rate',
+        'training/min_learning_rate',
+        'training/max_learning_rate'
       ]
 
       self.summary_placeholders = {}
@@ -54,7 +56,7 @@ class Statistics(object):
   def reset_average_summary(self):
     self.episode_rewards = []
     self.episode_rewards_per_step = []
-    self.episode_avg_max_q = []
+    self.episode_avg_q_max = []
     self.episode_steps = []
     self.episode_passed_obstacles = []
     self.episode_learning_rate = []
@@ -65,12 +67,12 @@ class Statistics(object):
   def update(self, global_t, episode_reward, total_q_max, 
             episode_steps, episode_actions, learning_rate, passed_obst):
     rewards_per_step = float(episode_reward) / float(episode_steps)
-    avg_max_q = total_q_max / episode_steps
+    ep_avg_q_max = total_q_max / episode_steps
 
     # average
     self.episode_rewards.append(episode_reward)
     self.episode_rewards_per_step.append(rewards_per_step)
-    self.episode_avg_max_q.append(avg_max_q)
+    self.episode_avg_q_max.append(ep_avg_q_max)
     self.episode_steps.append(episode_steps)
     self.episode_passed_obstacles.append(passed_obst)
     self.episode_actions = self.episode_actions + episode_actions
@@ -81,7 +83,7 @@ class Statistics(object):
               # average
               'episode/avg_reward': np.average(self.episode_rewards), 
               'episode/avg_reward_per_step': np.average(self.episode_rewards_per_step), 
-              'episode/avg_max_q': np.average(self.episode_avg_max_q), 
+              'episode/avg_q_max': np.average(self.episode_avg_q_max), 
               'episode/avg_steps': np.average(self.episode_steps),
               'episode/avg_passed_obstacles': np.average(self.episode_passed_obstacles),
               # max
@@ -95,7 +97,9 @@ class Statistics(object):
               'min/min_steps': np.min(self.episode_steps),
               'min/min_passed_obstacles': np.min(self.episode_passed_obstacles),
               # training
-              'training/learning_rate': np.min(self.episode_learning_rate),
+              'training/avg_learning_rate': np.average(self.episode_learning_rate),
+              'training/min_learning_rate': np.min(self.episode_learning_rate),
+              'training/max_learning_rate': np.max(self.episode_learning_rate),
               # histogram
               'episode/episode_rewards': self.episode_rewards,
               'episode/episode_actions': self.episode_actions,

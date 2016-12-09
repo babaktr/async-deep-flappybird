@@ -34,9 +34,8 @@ flags.DEFINE_string('agent_type', 'FF', 'What type of A3C to train the agent wit
 
 # TRAINING
 flags.DEFINE_integer('max_time_step', 40000000, 'Maximum training steps')
-flags.DEFINE_float('initial_alpha_log_rate', 0.4226, ' log_uniform interpolate rate for learning rate (around 7 * 10^-4)')
-flags.DEFINE_float('initial_alpha_low', 0.0001, 'log_uniform low limit for learning rate')
-flags.DEFINE_float('initial_alpha_high', 0.01, 'log_uniform high limit for learning rate')
+flags.DEFINE_float('initial_alpha_low', -5, 'log_uniform low limit for learning rate')
+flags.DEFINE_float('initial_alpha_high', -3, 'log_uniform high limit for learning rate')
 flags.DEFINE_float('gamma', 0.99, 'Discount factor for rewards')
 flags.DEFINE_float('entropy_beta', 0.01, 'Entropy regularization constant')
 flags.DEFINE_float('grad_norm_clip', 40.0, 'Gradient norm clipping')
@@ -45,7 +44,7 @@ flags.DEFINE_integer('random_seed', 123, 'Random seed to use during training')
 # OPTIMIZER
 flags.DEFINE_float('rmsp_alpha', 0.99, 'Decay parameter for RMSProp')
 flags.DEFINE_float('rmsp_epsilon', 0.1, 'Epsilon parameter for RMSProp')
-flags.DEFINE_integer('local_t_max', 5, 'Repeat step size')
+flags.DEFINE_integer('local_t_max', 256, 'Repeat step size')
 
 # LOG
 flags.DEFINE_string('log_level', 'FULL', 'Log level [NONE, FULL]')
@@ -64,12 +63,11 @@ settings = flags.FLAGS
 
 LOG_FILE = 'summary/{}-{}'.format(settings.experiment_name, settings.agent_type)
 
+random.seed(settings.random_seed)
 
-def log_uniform(lo, hi, rate):
-  log_lo = math.log(lo)
-  log_hi = math.log(hi)
-  v = log_lo * (1-rate) + log_hi * rate
-  return math.exp(v)
+
+def log_uniform(lo, hi, size):
+  return np.logspace(lo, hi, size)
 
 
 def train_function(parallel_index):
@@ -100,9 +98,9 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   if settings.use_gpu:
     device = "/gpu:0"
 
-  initial_learning_rate = log_uniform(settings.initial_alpha_low,
+  initial_learning_rates = log_uniform(settings.initial_alpha_low,
                                       settings.initial_alpha_high,
-                                      settings.initial_alpha_log_rate)
+                                      settings.parallel_agent_size)
 
   global_t = 0
 
@@ -131,7 +129,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   for i in range(settings.parallel_agent_size):
     training_thread = A3CTrainingThread(i, 
                                         global_network, 
-                                        initial_learning_rate,
+                                        initial_learning_rate[i],
                                         learning_rate_input, 
                                         grad_applier, 
                                         settings.max_time_step, 

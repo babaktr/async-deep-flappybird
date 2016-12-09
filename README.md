@@ -1,5 +1,4 @@
 # Asynchronous Deep ReinFlappyBird
-This repo contains an Asynchronous Advantage Actor-Critic (A3C) algorithm framework for training an agent to play Flappy Bird.
 
 <p align="center">
   <img src="visuals/play.gif"/>
@@ -15,14 +14,14 @@ For my tests, these are the training speeds when using a **CPU** (Intel Core i7 
 |         | FF            |LSTM          |
 |---------|---------------|--------------|
 | **CPU** | TBA steps/s   |TBA steps/s   |
-| **GPU** | 400 steps/s		|280 steps/s  |
+| **GPU** | 400 steps/s		|300 steps/s  |
 
 
 ## Settings
 Here are some of the available flags you can set when you train an agent. For the full list, see [```a3c.py```](/a3c.py).
 
 ### Agent settings
-* ```mode``` / ```[train, display, visualize] ``` - Which mode you want to activate when you start a session. 
+* ```mode``` / ```[train, display, visualize] ``` - Which mode you want to activate when you start a session.
 * ```use_gpu``` / ```[True, False]``` - If you have a/want to use GPU to speed up the training process. 
 * ```parallel_agent_size``` - Number of parallel agents to use during training. 
 * ```action_size``` - Numbers of available actions.
@@ -35,7 +34,6 @@ The current settings are based on or borrowed from the [implemenentation] (https
 They have not yet been optimized for Flappy Bird but rather used _as is_ for now. Tell me settings that perform better than the current ones!
 
 * ```max_time_step - 40 000 000``` - Maximum training steps. 
-* ```initial_alpha_log_rate - 0.4226``` - log_uniform interpolate rate for learning rate (around 7*10^-4).
 * ```initial_alpha_low - 0.0001``` - log_uniform low limit for learning rate.
 * ```initial_alpha_high -  0.01``` - log_uniform high limit for learning rate.
 * ```gamma - 0.99``` - Discount factor for rewards.
