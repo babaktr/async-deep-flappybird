@@ -56,10 +56,16 @@ They have not yet been optimized for Flappy Bird but rather used _as is_ for now
 
 
 ## Getting started
-To start a training session with the default parameters, run
+To start a training session with the default parameters, run:
 
 ```
 $ python a3c.py
+```
+
+To check your progress and possibly compare different experiments in real time, navigate to your  ```async-deep-flappybird``` folder and start tensorboard by running:
+
+```
+$ tensorboard --logdir summary/
 ```
 
 Enjoy!
