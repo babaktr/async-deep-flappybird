@@ -9,9 +9,6 @@ from game_state import GameState
 from game_ac_network import GameACFFNetwork, GameACLSTMNetwork
 from statistics import Statistics
 
-
-LOG_INTERVAL = 100
-
 class A3CTrainingThread(object):
   def __init__(self, thread_index,
                global_network,
@@ -48,7 +45,11 @@ class A3CTrainingThread(object):
     self.local_network.prepare_loss(entropy_beta)
 
     with tf.device(device):
-      var_refs = [v.ref() for v in self.local_network.get_vars()]
+      var_refs = []
+      variables = self.local_network.get_vars()
+      for v in variables:
+        var_refs.append(v)
+      
       self.gradients = tf.gradients(
         self.local_network.total_loss, var_refs,
         gate_gradients=False,

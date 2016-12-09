@@ -25,21 +25,21 @@ flags.DEFINE_string('mode', 'train', 'Current mode to run [train, display, visua
 # EXPERIMENT
 flags.DEFINE_string('experiment_name', 'flappybird', 'Name of the current experiment (for summary)')
 flags.DEFINE_string('checkpoint_dir', 'checkpoints', 'Name of the directory for checkpoints')
-flags.DEFINE_boolean('use_gpu', True, 'If GPU should be used to speed up the training process')
+flags.DEFINE_boolean('use_gpu', False, 'If GPU should be used to speed up the training process')
 
 # AGENT
-flags.DEFINE_integer('parallel_agent_size', 16, 'Number of parallel agents')
+flags.DEFINE_integer('parallel_agent_size', 2, 'Number of parallel agents')
 flags.DEFINE_integer('action_size', 2, 'Numbers of available actions')
 flags.DEFINE_string('agent_type', 'FF', 'What type of A3C to train the agent with [FF, LSTM] (default FF)')
 
 # TRAINING
 flags.DEFINE_integer('max_time_step', 40000000, 'Maximum training steps')
-flags.DEFINE_float('initial_alpha_low', -5, 'log_uniform low limit for learning rate')
-flags.DEFINE_float('initial_alpha_high', -3, 'log_uniform high limit for learning rate')
+flags.DEFINE_float('initial_alpha_low', -5, 'log_uniform low limit for learning rate (represents x in 10^x)')
+flags.DEFINE_float('initial_alpha_high', -3, 'log_uniform high limit for learning rate (represents x in 10^x)') 
 flags.DEFINE_float('gamma', 0.99, 'Discount factor for rewards')
 flags.DEFINE_float('entropy_beta', 0.01, 'Entropy regularization constant')
 flags.DEFINE_float('grad_norm_clip', 40.0, 'Gradient norm clipping')
-flags.DEFINE_integer('random_seed', 123, 'Random seed to use during training')
+flags.DEFINE_integer('random_seed', 1, 'Random seed to use during training')
 
 # OPTIMIZER
 flags.DEFINE_float('rmsp_alpha', 0.99, 'Decay parameter for RMSProp')
@@ -52,12 +52,11 @@ flags.DEFINE_integer('average_summary', 25, 'How many episodes to average summar
 flags.DEFINE_integer('performance_log_interval', 1000, 'How often to print current performance (in steps/s)')
 
 # DISPLAY
-flags.DEFINE_integer('display_episodes', 10, 'Numbers of episodes to display')
+flags.DEFINE_integer('display_episodes', 50, 'Numbers of episodes to display')
 flags.DEFINE_integer('display_time_sleep', 0, 'Sleep time in each state (seconds)')
 flags.DEFINE_string('display_log_level', 'MID', 'Display log level - NONE prints end summary, MID prints episode summary and FULL prints for every state [NONE, MID, FULL]')
 flags.DEFINE_boolean('display_save_log', False, 'If MID level log should be saved')
-flags.DEFINE_boolean('show_max', True, 'If a screenshot of the high score should be plotted¶')
-
+flags.DEFINE_boolean('show_max', True, 'If a screenshot of the high score should be plotted')
 
 settings = flags.FLAGS
 
@@ -65,10 +64,8 @@ LOG_FILE = 'summary/{}-{}'.format(settings.experiment_name, settings.agent_type)
 
 random.seed(settings.random_seed)
 
-
 def log_uniform(lo, hi, size):
   return np.logspace(lo, hi, size)
-
 
 def train_function(parallel_index):
   global global_t
@@ -99,9 +96,8 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
     device = "/gpu:0"
 
   initial_learning_rates = log_uniform(settings.initial_alpha_low,
-                                      settings.initial_alpha_high,
-                                      settings.parallel_agent_size)
-
+                                        settings.initial_alpha_high,
+                                        settings.parallel_agent_size)
   global_t = 0
 
   stop_requested = False
@@ -124,12 +120,10 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
                                 device = device)
 
 
-
-
   for i in range(settings.parallel_agent_size):
     training_thread = A3CTrainingThread(i, 
                                         global_network, 
-                                        initial_learning_rate[i],
+                                        initial_learning_rates[i],
                                         learning_rate_input, 
                                         grad_applier, 
                                         settings.max_time_step, 
@@ -149,7 +143,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   sess = tf.Session(config=tf.ConfigProto(log_device_placement=False,
                                           allow_soft_placement=True))
 
-  init = tf.initialize_all_variables()
+  init = tf.global_variables_initializer()
   sess.run(init)
 
   # Statistics summary writer
