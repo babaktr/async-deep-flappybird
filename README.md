@@ -4,6 +4,8 @@
   <img src="visuals/play.gif"/>
 </p>
 
+This repository contains an implementation of Asynchronous Advantage Actor-Critic (A3C) that teaches an agent to play Flappy Bird.
+
 ## Performance
 Coming soon!
 
