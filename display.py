@@ -39,7 +39,7 @@ def display(experiment_name,
   if agent_type == 'LSTM':
     global_network = GameACLSTMNetwork(action_size, -1, device)
   else:
-    global_network = GameACFFNetwork(action_size, device)
+    global_network = GameACFFNetwork(action_size, -1, device)
 
   learning_rate_input = tf.placeholder("float")
 

@@ -51,7 +51,7 @@ def visualize(experiment_name,
   if agent_type == 'LSTM':
     global_network = GameACLSTMNetwork(action_size, -1, device)
   else:
-    global_network = GameACFFNetwork(action_size, device)
+    global_network = GameACFFNetwork(action_size, -1, device)
 
   training_threads = []
 
@@ -64,14 +64,9 @@ def visualize(experiment_name,
                                 clip_norm = grad_norm_clip,
                                 device = device)
 
-
   game = GameState(rand_seed, action_size)
-  game.reset()
   game.process(0)
   x_t = game.x_t
-
-  #print x_t.shape
-
 
   plt.imshow(x_t, interpolation="nearest", cmap=plt.cm.gray)
 
@@ -88,7 +83,6 @@ def visualize(experiment_name,
     print("Could not find old checkpoint")
     
   W_conv1 = sess.run(global_network.W_conv1)
-
 
   # show graph of W_conv1
   fig, axes = plt.subplots(4, 16, figsize=(12, 6),
@@ -111,7 +105,6 @@ def visualize(experiment_name,
                subplot_kw={'xticks': [], 'yticks': []})
   fig.subplots_adjust(hspace=0.1, wspace=0.1)
 
-  #print len(W_conv2)
   for ax,i in zip(axes.flat, range(2*32)):
     inch = i//32
     outch = i%32
@@ -122,10 +115,9 @@ def visualize(experiment_name,
   plt.show()
 
   arr = sess.run(global_network.get_vars())
-  #print arr
 
   s = tf.placeholder("float", [None, 84, 84, 4])
-  #s = sess.run(global_network.s)
+
   b_conv1 = sess.run(global_network.b_conv1)
   b_conv2 = sess.run(global_network.b_conv2)
 

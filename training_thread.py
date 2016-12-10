@@ -40,7 +40,7 @@ class A3CTrainingThread(object):
     if self.agent_type == 'LSTM':
       self.local_network = GameACLSTMNetwork(self.action_size, thread_index, device)
     else:
-      self.local_network = GameACFFNetwork(self.action_size, device)
+      self.local_network = GameACFFNetwork(self.action_size, thread_index, device)
 
     self.local_network.prepare_loss(entropy_beta)
 
