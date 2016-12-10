@@ -106,7 +106,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   if settings.agent_type == 'LSTM':
     global_network = GameACLSTMNetwork(settings.action_size, -1, device)
   else:
-    global_network = GameACFFNetwork(settings.action_size, device)
+    global_network = GameACFFNetwork(settings.action_size, -1, device)
 
 
   training_threads = []
@@ -158,16 +158,16 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
 
   # init or load checkpoint with saver
   saver = tf.train.Saver()
-  checkpoint = tf.train.get_checkpoint_state(settings.checkpoint_dir)
+  checkpoint = tf.train.get_checkpoint_state(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)
   if checkpoint and checkpoint.model_checkpoint_path:
     saver.restore(sess, checkpoint.model_checkpoint_path)
     print("checkpoint loaded:", checkpoint.model_checkpoint_path)
     tokens = checkpoint.model_checkpoint_path.split("-")
     # set global step
-    global_t = int(tokens[1])
+    global_t = int(tokens[2])
     print(">>> global step set: ", global_t)
     # set wall time
-    wall_t_fname = settings.checkpoint_dir + '/' + 'wall_t.' + str(global_t)
+    wall_t_fname = settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' + 'wall_t.' + str(global_t)
     with open(wall_t_fname, 'r') as f:
       wall_t = float(f.read())
     print "Continuing experiment {} with agent type {} at step {}".format(settings.experiment_name, agent, global_t)
@@ -178,9 +178,6 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
     wall_t = 0.0
 
     print "Starting experiment {} with agent type {}".format(settings.experiment_name, agent)
-
-
-
     
   train_threads = []
   for i in range(settings.parallel_agent_size):
@@ -202,16 +199,17 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   for t in train_threads:
     t.join()
 
-  if not os.path.exists(settings.checkpoint_dir):
-    os.mkdir(settings.checkpoint_dir)  
+  if not os.path.exists(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type):
+    os.mkdir(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)  
+
 
   # write wall time
   wall_t = time.time() - start_time
-  wall_t_fname = settings.checkpoint_dir + '/' + 'wall_t.' + str(global_t)
+  wall_t_fname = settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' + 'wall_t.' + str(global_t)
   with open(wall_t_fname, 'w') as f:
     f.write(str(wall_t))
 
-  saver.save(sess, settings.checkpoint_dir + '/' + 'checkpoint', global_step = global_t)
+  saver.save(sess, settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' 'checkpoint', global_step = global_t)
 
 elif settings.mode == 'display':
   DISPLAY.display(settings.experiment_name,
@@ -221,7 +219,7 @@ elif settings.mode == 'display':
                   settings.agent_type,
                   settings.action_size,
                   settings.random_seed,
-                  settings.checkpoint_dir,
+                  settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type,
                   settings.display_time_sleep,
                   settings.display_episodes,
                   settings.display_log_level,
@@ -237,5 +235,5 @@ elif settings.mode == 'visualize':
                       settings.agent_type,
                       settings.action_size,
                       settings.random_seed,
-                      settings.checkpoint_dir)
+                      settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)
 
