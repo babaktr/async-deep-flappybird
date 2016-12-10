@@ -34,8 +34,8 @@ flags.DEFINE_string('agent_type', 'FF', 'What type of A3C to train the agent wit
 
 # TRAINING
 flags.DEFINE_integer('max_time_step', 40000000, 'Maximum training steps')
-flags.DEFINE_float('initial_alpha_low', -5, 'log_uniform low limit for learning rate (represents x in 10^x)')
-flags.DEFINE_float('initial_alpha_high', -3, 'log_uniform high limit for learning rate (represents x in 10^x)') 
+flags.DEFINE_float('initial_alpha_low', -5, 'LogUniform low limit for learning rate (represents x in 10^x)')
+flags.DEFINE_float('initial_alpha_high', -3, 'LogUniform high limit for learning rate (represents x in 10^x)') 
 flags.DEFINE_float('gamma', 0.99, 'Discount factor for rewards')
 flags.DEFINE_float('entropy_beta', 0.01, 'Entropy regularization constant')
 flags.DEFINE_float('grad_norm_clip', 40.0, 'Gradient norm clipping')
@@ -60,7 +60,7 @@ flags.DEFINE_boolean('show_max', True, 'If a screenshot of the high score should
 
 settings = flags.FLAGS
 
-LOG_FILE = 'summary/{}-{}'.format(settings.experiment_name, settings.agent_type)
+LOG_FILE = 'summaries/{}-{}'.format(settings.experiment_name, settings.agent_type)
 
 random.seed(settings.random_seed)
 

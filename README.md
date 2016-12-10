@@ -34,8 +34,8 @@ The current settings are based on or borrowed from the [implemenentation] (https
 They have not yet been optimized for Flappy Bird but rather used _as is_ for now. Tell me settings that perform better than the current ones!
 
 * ```max_time_step - 40 000 000``` - Maximum training steps. 
-* ```initial_alpha_low - -5``` - log_uniform low limit for learning rate (represents x in 10^x).
-* ```initial_alpha_high -  -3``` - log_uniform high limit for learning rate (represents x in 10^x).
+* ```initial_alpha_low - -5``` - LogUniform low limit for learning rate (represents x in 10^x).
+* ```initial_alpha_high -  -3``` - LogUniform high limit for learning rate (represents x in 10^x).
 * ```gamma - 0.99``` - Discount factor for rewards.
 * ```entropy_beta - 0.01``` - Entropy regularization constant.
 * ```grad_norm_clip - 40.0```- Gradient norm clipping.
@@ -65,7 +65,7 @@ $ python a3c.py
 To check your progress and possibly compare different experiments in real time, navigate to your  ```async-deep-flappybird``` folder and start tensorboard by running:
 
 ```
-$ tensorboard --logdir summary/
+$ tensorboard --logdir summaries/
 ```
 
 Enjoy!
