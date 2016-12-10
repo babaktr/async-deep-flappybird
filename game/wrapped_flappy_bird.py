@@ -1,7 +1,4 @@
 import numpy as np
-import sys
-sys.path.append("..")
-sys.path.append("../assets/")
 import random
 import pygame
 import flappy_bird_utils
