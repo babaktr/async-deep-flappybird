@@ -199,6 +199,8 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   for t in train_threads:
     t.join()
 
+  if not os.path.exists(settings.checkpoint_dir):
+    os.mkdir(settings.checkpoint_dir)  
   if not os.path.exists(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type):
     os.mkdir(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)  
 
