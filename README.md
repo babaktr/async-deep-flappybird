@@ -11,6 +11,7 @@ Coming soon!
 
 ## Technical Details
 
+For my tests, these are the training speeds when using a **CPU** (Intel Xeon E5620 2.40 GHz) or **GPU** (NVIDIA GTX1070).
 
 |         | FF            |LSTM          |
 |---------|---------------|--------------|
