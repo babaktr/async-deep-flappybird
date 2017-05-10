@@ -124,7 +124,10 @@ class A3CTrainingThread(object):
       values.append(value_)
 
       # process game
-      self.game_state.process(action)
+      try: # Bitblt may raise error, but we can safely ignore it, otherwise thread will die
+        self.game_state.process(action)
+      except Exception as e:
+        print e.message
 
       # receive game result
       reward = self.game_state.reward

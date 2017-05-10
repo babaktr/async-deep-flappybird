@@ -148,7 +148,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   sess.run(init)
 
   # Statistics summary writer
-  summary_writer = tf.train.SummaryWriter(LOG_FILE, sess.graph)
+  summary_writer = tf.summary.FileWriter(LOG_FILE, sess.graph)
   statistics = Statistics(sess, summary_writer, settings.average_summary)
 
   if settings.agent_type == 'LSTM':
