@@ -40,7 +40,7 @@ class Statistics(object):
 
       for tag in scalar_summary_tags:
         self.summary_placeholders[tag] = tf.placeholder('float32', None, name=tag.replace(' ', '_'))
-        self.summary_ops[tag]  = tf.scalar_summary(tag, self.summary_placeholders[tag])
+        self.summary_ops[tag]  = tf.summary.scalar(tag, self.summary_placeholders[tag])
 
       histogram_summary_tags = ['episode/episode_rewards', 
                                 'episode/episode_actions',
@@ -48,7 +48,7 @@ class Statistics(object):
 
       for tag in histogram_summary_tags:
         self.summary_placeholders[tag] = tf.placeholder('float32', None, name=tag.replace(' ', '_'))
-        self.summary_ops[tag]  = tf.histogram_summary(tag, self.summary_placeholders[tag])
+        self.summary_ops[tag]  = tf.summary.histogram(tag, self.summary_placeholders[tag])
 
       self.reset_average_summary()
 
@@ -64,8 +64,7 @@ class Statistics(object):
     self.episode_actions = []
 
 
-  def update(self, global_t, episode_reward, total_q_max, 
-            episode_steps, episode_actions, learning_rate, passed_obst):
+  def update(self, global_t, episode_reward, total_q_max, episode_steps, episode_actions, learning_rate, passed_obst):
     rewards_per_step = float(episode_reward) / float(episode_steps)
     ep_avg_q_max = total_q_max / episode_steps
 

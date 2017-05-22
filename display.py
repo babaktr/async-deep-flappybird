@@ -98,7 +98,7 @@ def display(experiment_name,
 
 
       episode_reward += reward
-      episode_passed_obst += passed_obst
+      episode_passed_obst = passed_obst
 
       if display_log_level == 'FULL':
         print 'step  /  pi_values: {}  /  value: {}  /  action: {}  /  reward: {}  /  passed_obst: {}'.format(pi_values, value, action, reward, passed_obst)

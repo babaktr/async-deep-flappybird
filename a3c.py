@@ -91,6 +91,28 @@ def signal_handler(signal, frame):
   print('You pressed Ctrl+C!')
   stop_requested = True
 
+def write_checkpoint(saver, start_time):
+  global global_t
+  global settings
+
+  if not os.path.exists(settings.checkpoint_dir):
+    os.mkdir(settings.checkpoint_dir)
+  if not os.path.exists(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type):
+    os.mkdir(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)
+
+  # write wall time
+  wall_t = time.time() - start_time
+  wall_t_fname = settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' + 'wall_t.' + str(
+    global_t)
+  with open(wall_t_fname, 'w') as f:
+    f.write(str(wall_t))
+
+  saver.save(sess,
+             settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' 'checkpoint',
+             global_step=global_t)
+
+
+
 if not settings.mode == 'display' and not settings.mode == 'visualize':
   device = "/cpu:0"
   if settings.use_gpu:
@@ -148,7 +170,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   sess.run(init)
 
   # Statistics summary writer
-  summary_writer = tf.train.SummaryWriter(LOG_FILE, sess.graph)
+  summary_writer = tf.summary.FileWriter(LOG_FILE, sess.graph)
   statistics = Statistics(sess, summary_writer, settings.average_summary)
 
   if settings.agent_type == 'LSTM':
@@ -199,19 +221,7 @@ if not settings.mode == 'display' and not settings.mode == 'visualize':
   for t in train_threads:
     t.join()
 
-  if not os.path.exists(settings.checkpoint_dir):
-    os.mkdir(settings.checkpoint_dir)  
-  if not os.path.exists(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type):
-    os.mkdir(settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type)  
-
-
-  # write wall time
-  wall_t = time.time() - start_time
-  wall_t_fname = settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' + 'wall_t.' + str(global_t)
-  with open(wall_t_fname, 'w') as f:
-    f.write(str(wall_t))
-
-  saver.save(sess, settings.checkpoint_dir + '/' + settings.experiment_name + '-' + settings.agent_type + '/' 'checkpoint', global_step = global_t)
+  write_checkpoint(saver=saver, start_time=start_time)
 
 elif settings.mode == 'display':
   DISPLAY.display(settings.experiment_name,
